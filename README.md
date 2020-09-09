@@ -31,14 +31,18 @@
 使用以下说明安装所需的二进制文件：
 
 ```
-wget [https://github.com/hyperledger/fabric/releases/download/v2.2.0/hyperledger-fabric-linux-amd64-2.2.0.tar.gz](https://github.com/hyperledger/fabric/releases/download/v2.2.0/hyperledger-fabric-linux-amd64-2.2.0.tar.gz)tar -xzf hyperledger-fabric-linux-amd64-2.2.0.tar.gz\# Move to the bin path  
-mv bin/\* /bin\# Check that you have successfully installed the tools by executing  
-configtxgen --version\# Should print the following output:  
-\# configtxgen:  
-\#  Version: 2.2.0  
-\#  Commit SHA: 5ea85bc54  
-\#  Go version: go1.14.4  
-\#  OS/Arch: linux/amd64
+wget https://github.com/hyperledger/fabric/releases/download/v2.2.0/hyperledger-fabric-linux-amd64-2.2.0.tar.gz
+tar -xzf hyperledger-fabric-linux-amd64-2.2.0.tar.gz
+# Move to the bin path
+mv bin/* /bin
+# Check that you have successfully installed the tools by executing
+configtxgen --version
+# Should print the following output:
+# configtxgen:
+#  Version: 2.2.0
+#  Commit SHA: 5ea85bc54
+#  Go version: go1.14.4
+#  OS/Arch: linux/amd64
 ```
 
 启动网络
@@ -89,10 +93,11 @@ $ kubectl create -f orderer-service/
 通过发出以下命令来检查一切是否正常：
 
 ```
-$ kubectl get pods -n hyperledger\### Should print a similar output  
-NAME                        READY   STATUS    RESTARTS   AGE  
-orderer0-58666b6bd7-pflf7    1/1     Running   0          5m47s  
-orderer1-c4fd65c7d-c27ll    1/1     Running   0          5m47s  
+$ kubectl get pods -n hyperledger
+### Should print a similar output
+NAME                        READY   STATUS    RESTARTS   AGE
+orderer0-58666b6bd7-pflf7    1/1     Running   0          5m47s
+orderer1-c4fd65c7d-c27ll    1/1     Running   0          5m47s
 orderer2-557cb7865-wlcmh    1/1     Running   0          5m47s
 ```
 
@@ -108,13 +113,14 @@ $ kubectl create -f org1/
 通过发出以下命令来检查一切是否正常：
 
 ```
-$ kubectl get pods -n hyperledger\### Should print a similar output  
-NAME                          READY   STATUS    RESTARTS   AGE  
-ca-org1-84945b8c7b-9px4s      1/1     Running   0          19m  
-cli-org1-bc9f895f6-zmmdc      1/1     Running   0          2m56s  
-orderer0-58666b6bd7-pflf7      1/1     Running   0          79m  
-orderer1-c4fd65c7d-c27ll      1/1     Running   0          79m  
-orderer2-557cb7865-wlcmh      1/1     Running   0          79m  
+$ kubectl get pods -n hyperledger
+### Should print a similar output
+NAME                          READY   STATUS    RESTARTS   AGE
+ca-org1-84945b8c7b-9px4s      1/1     Running   0          19m
+cli-org1-bc9f895f6-zmmdc      1/1     Running   0          2m56s
+orderer0-58666b6bd7-pflf7      1/1     Running   0          79m
+orderer1-c4fd65c7d-c27ll      1/1     Running   0          79m
+orderer2-557cb7865-wlcmh      1/1     Running   0          79m
 peer0-org1-798b974467-vv4zz   1/1     Running   0          19m
 ```
 
@@ -129,16 +135,17 @@ $ kubectl create -f org2/
 通过发出以下命令来检查一切是否正常：
 
 ```
-$ kubectl get pods -n hyperledger\### Should print a similar output  
-NAME                          READY   STATUS    RESTARTS   AGE  
-ca-org1-84945b8c7b-9px4s      1/1     Running   0          71m  
-ca-org2-7454f69c48-q8lft      1/1     Running   0          2m20s  
-cli-org1-bc9f895f6-zmmdc      1/1     Running   0          55m  
-cli-org2-7779cc8788-8q4ns     1/1     Running   0          2m20s  
-orderer0-58666b6bd7-pflf7      1/1     Running   0          131m  
-orderer1-c4fd65c7d-c27ll      1/1     Running   0          131m  
-orderer2-557cb7865-wlcmh      1/1     Running   0          131m  
-peer0-org1-798b974467-vv4zz   1/1     Running   0          71m  
+$ kubectl get pods -n hyperledger
+### Should print a similar output
+NAME                          READY   STATUS    RESTARTS   AGE
+ca-org1-84945b8c7b-9px4s      1/1     Running   0          71m
+ca-org2-7454f69c48-q8lft      1/1     Running   0          2m20s
+cli-org1-bc9f895f6-zmmdc      1/1     Running   0          55m
+cli-org2-7779cc8788-8q4ns     1/1     Running   0          2m20s
+orderer0-58666b6bd7-pflf7      1/1     Running   0          131m
+orderer1-c4fd65c7d-c27ll      1/1     Running   0          131m
+orderer2-557cb7865-wlcmh      1/1     Running   0          131m
+peer0-org1-798b974467-vv4zz   1/1     Running   0          71m
 peer0-org2-5849c55fcd-mbn5h   1/1     Running   0          2m19s
 ```
 
@@ -154,53 +161,58 @@ peer0-org2-5849c55fcd-mbn5h   1/1     Running   0          2m19s
 部署所有工作负载后，我们准备创建通道并将对等方加入到该通道中。 输入**org1**的cli pod：
 
 ```
-$ kubectl exec -it cli\_org1\_pod\_name sh -n hyperledger
+$ kubectl exec -it cli_org1_pod_name sh -n hyperledger
 ```
 
 进入cli pod后，执行以下命令：
 
 ```
-$ peer channel create -o orderer0:7050 -c mychannel -f ./scripts/channel-artifacts/channel.tx --tls true --cafile $ORDERER\_CA\### Should print a similar output  
-2020-03-06 11:54:57.582 UTC \[channelCmd\] InitCmdFactory -> INFO 001 Endorser and orderer connections initialized  
-2020-03-06 11:54:58.903 UTC \[cli.common\] readBlock -> INFO 002 Received block: 0
+$ peer channel create -o orderer0:7050 -c mychannel -f ./scripts/channel-artifacts/channel.tx --tls true --cafile $ORDERER_CA
+### Should print a similar output
+2020-03-06 11:54:57.582 UTC [channelCmd] InitCmdFactory -> INFO 001 Endorser and orderer connections initialized
+2020-03-06 11:54:58.903 UTC [cli.common] readBlock -> INFO 002 Received block: 0
 ```
 
 频道“mychannel”已创建并可以使用。 接下来，将**org1**的对等方加入频道：
 
 ```
-$ peer channel join -b mychannel.block\### Should print a similar output  
-2020-03-06 12:01:41.608 UTC \[channelCmd\] InitCmdFactory -> INFO 001 Endorser and orderer connections initialized  
-2020-03-06 12:01:41.688 UTC \[channelCmd\] executeJoin -> INFO 002 Successfully submitted proposal to join channel
+$ peer channel join -b mychannel.block
+### Should print a similar output
+2020-03-06 12:01:41.608 UTC [channelCmd] InitCmdFactory -> INFO 001 Endorser and orderer connections initialized
+2020-03-06 12:01:41.688 UTC [channelCmd] executeJoin -> INFO 002 Successfully submitted proposal to join channel
 ```
 
 我们将在** org2 ** cli上执行相同的步骤，但是由于该通道已经由** org1 **创建，因此我们将从订单服务中获取创世块。 首先输入广告连播：
 
 ```
-$ kubectl exec -it cli\_org2\_pod\_name sh -n hyperledger
+$ kubectl exec -it cli_org2_pod_name sh -n hyperledger
 ```
 
 进入cli pod后，执行以下命令：
 
 ```
-$ peer channel fetch 0 mychannel.block -c mychannel -o orderer0:7050 --tls --cafile $ORDERER\_CA\### Should print a similar output  
-2020-03-06 12:18:14.880 UTC \[channelCmd\] InitCmdFactory -> INFO 001 Endorser and orderer connections initialized  
-2020-03-06 12:18:14.895 UTC \[cli.common\] readBlock -> INFO 002 Received block: 0
+$ peer channel fetch 0 mychannel.block -c mychannel -o orderer0:7050 --tls --cafile $ORDERER_CA
+### Should print a similar output
+2020-03-06 12:18:14.880 UTC [channelCmd] InitCmdFactory -> INFO 001 Endorser and orderer connections initialized
+2020-03-06 12:18:14.895 UTC [cli.common] readBlock -> INFO 002 Received block: 0
 ```
 
 然后从创世块加入频道：
 
 ```
-$ peer channel join -b mychannel.block\### Should print a similar output  
-2020-03-06 12:20:41.475 UTC \[channelCmd\] InitCmdFactory -> INFO 001 Endorser and orderer connections initialized  
-2020-03-06 12:20:41.561 UTC \[channelCmd\] executeJoin -> INFO 002 Successfully submitted proposal to join channel
+$ peer channel join -b mychannel.block
+### Should print a similar output
+2020-03-06 12:20:41.475 UTC [channelCmd] InitCmdFactory -> INFO 001 Endorser and orderer connections initialized
+2020-03-06 12:20:41.561 UTC [channelCmd] executeJoin -> INFO 002 Successfully submitted proposal to join channel
 ```
 
 您可以通过执行以下命令随时检查是否有任何对等方加入了该通道：
 
 ```
-$ peer channel list\### Should print a similar output  
-2020-03-06 12:22:41.102 UTC \[channelCmd\] InitCmdFactory -> INFO 001 Endorser and orderer connections initialized  
-Channels peers has joined:   
+$ peer channel list
+### Should print a similar output
+2020-03-06 12:22:41.102 UTC [channelCmd] InitCmdFactory -> INFO 001 Endorser and orderer connections initialized
+Channels peers has joined: 
 mychannel
 ```
 
@@ -253,16 +265,18 @@ $ tar cfz marbles-org1.tgz code.tar.gz metadata.json
 收到tar文件后，就可以使用新的生命周期过程将其安装在对等方中了。
 
 ```
-$ peer lifecycle chaincode install marbles-org1.tgz\### Should print a similar output  
-2020-03-07 14:33:18.120 UTC \[cli.lifecycle.chaincode\] submitInstallProposal -> INFO 001 Installed remotely: response:<status:200 payload:"\\nGdmarbles:e001937433673b11673d660d142c722fc372905db87f88d2448eee42c9c63064\\022\\006degree" >   
-2020-03-07 14:33:18.126 UTC \[cli.lifecycle.chaincode\] submitInstallProposal -> INFO 002 Chaincode code package identifier: marbles:e001937433673b11673d660d142c722fc372905db87f88d2448eee42c9c63064
+$ peer lifecycle chaincode install marbles-org1.tgz
+### Should print a similar output
+2020-03-07 14:33:18.120 UTC [cli.lifecycle.chaincode] submitInstallProposal -> INFO 001 Installed remotely: response:<status:200 payload:"\nGdmarbles:e001937433673b11673d660d142c722fc372905db87f88d2448eee42c9c63064\022\006degree" > 
+2020-03-07 14:33:18.126 UTC [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 Chaincode code package identifier: marbles:e001937433673b11673d660d142c722fc372905db87f88d2448eee42c9c63064
 ```
 
 复制链码代码包标识符，以备后用。 不过，您始终可以通过执行以下命令来取回它：
 
 ```
-$ peer lifecycle chaincode queryinstalled\### Should print a similar output  
-Installed chaincodes on peer:  
+$ peer lifecycle chaincode queryinstalled
+### Should print a similar output
+Installed chaincodes on peer:
 Package ID: marbles:030eec59c7d74fbb4e9fd57bbd50bb904a715ffb9de8fea85b6a6d4b8ca9ea12, Label: marbles
 ```
 
@@ -275,12 +289,13 @@ Package ID: marbles:030eec59c7d74fbb4e9fd57bbd50bb904a715ffb9de8fea85b6a6d4b8ca9
 然后重复与之前相同的步骤，在org2 cli窗格中执行install命令：
 
 ```
-$ rm -f code.tar.gz  
-$ tar cfz code.tar.gz connection.json  
-$ tar cfz marbles-org2.tgz code.tar.gz metadata.json  
-$ peer lifecycle chaincode install marbles-org2.tgz\### Should print a similar output  
-2020-03-07 15:10:15.093 UTC \[cli.lifecycle.chaincode\] submitInstallProposal -> INFO 001 Installed remotely: response:<status:200 payload:"\\nGmarbles:c422c797444e4ee25a92a8eaf97765288a8d68f9c29cedf1e0cd82e4aa2c8a5b\\022\\006degree" >   
-2020-03-07 15:10:15.093 UTC \[cli.lifecycle.chaincode\] submitInstallProposal -> INFO 002 Chaincode code package identifier: marbles:c422c797444e4ee25a92a8eaf97765288a8d68f9c29cedf1e0cd82e4aa2c8a5b
+$ rm -f code.tar.gz
+$ tar cfz code.tar.gz connection.json
+$ tar cfz marbles-org2.tgz code.tar.gz metadata.json
+$ peer lifecycle chaincode install marbles-org2.tgz
+### Should print a similar output
+2020-03-07 15:10:15.093 UTC [cli.lifecycle.chaincode] submitInstallProposal -> INFO 001 Installed remotely: response:<status:200 payload:"\nGmarbles:c422c797444e4ee25a92a8eaf97765288a8d68f9c29cedf1e0cd82e4aa2c8a5b\022\006degree" > 
+2020-03-07 15:10:15.093 UTC [cli.lifecycle.chaincode] submitInstallProposal -> INFO 002 Chaincode code package identifier: marbles:c422c797444e4ee25a92a8eaf97765288a8d68f9c29cedf1e0cd82e4aa2c8a5b
 ```
 像以前一样复制链码代码包标识符。当我们将org2的地址更改为org时，它的哈希值应与org1的哈希值不同。
 
@@ -338,59 +353,65 @@ $ kubectl create -f chaincode/k8s
 该服务和部署将与其他工作负载部署在相同的k8s命名空间中。
 
 ```
-$ kubectl get pods -n hyperledgerNAME                                      READY   STATUS    RESTARTS   AGE  
-ca-org1-84945b8c7b-tx59g                  1/1     Running   0          19h  
-ca-org2-7454f69c48-nfzsq                  1/1     Running   0          19h  
-chaincode-marbles-org1-6fc8858855-wdz7z   1/1     Running   0          20m  
-chaincode-marbles-org2-77bf56fdfb-6cdfm   1/1     Running   0          14m  
-cli-org1-589944999c-cvgbx                 1/1     Running   0          19h  
-cli-org2-656cf8dd7c-kcxd7                 1/1     Running   0          19h  
-orderer0-5844bd9bcc-6td8c                 1/1     Running   0          46h  
-orderer1-75d8df99cd-6vbjl                 1/1     Running   0          46h  
-orderer2-795cf7c4c-6lsdd                  1/1     Running   0          46h  
-peer0-org1-5bc579d766-kq2qd               1/1     Running   0          19h  
+$ kubectl get pods -n hyperledger
+NAME                                      READY   STATUS    RESTARTS   AGE
+ca-org1-84945b8c7b-tx59g                  1/1     Running   0          19h
+ca-org2-7454f69c48-nfzsq                  1/1     Running   0          19h
+chaincode-marbles-org1-6fc8858855-wdz7z   1/1     Running   0          20m
+chaincode-marbles-org2-77bf56fdfb-6cdfm   1/1     Running   0          14m
+cli-org1-589944999c-cvgbx                 1/1     Running   0          19h
+cli-org2-656cf8dd7c-kcxd7                 1/1     Running   0          19h
+orderer0-5844bd9bcc-6td8c                 1/1     Running   0          46h
+orderer1-75d8df99cd-6vbjl                 1/1     Running   0          46h
+orderer2-795cf7c4c-6lsdd                  1/1     Running   0          46h
+peer0-org1-5bc579d766-kq2qd               1/1     Running   0          19h
 peer0-org2-77f58c87fd-sczp8               1/1     Running   0          19h
 ```
 
 现在，我们必须批准每个组织的链码。 这是链码生命周期过程的新功能，每个组织都必须同意批准链码的新定义。 我们将批准org1 **的大理石代码定义。 在** org1 ** cli pod中执行此命令，切记更改** CHAINCODE \ _CCID：**
 
 ```
-$ peer lifecycle chaincode approveformyorg --channelID mychannel --name marbles --version 1.0 --init-required --package-id marbles:e001937433673b11673d660d142c722fc372905db87f88d2448eee42c9c63064 --sequence 1 -o orderer0:7050 --tls --cafile $ORDERER\_CA\### Should print a similar output  
-2020-03-08 10:02:46.192 UTC \[chaincodeCmd\] ClientWait -> INFO 001 txid \[4d81ea5fd494e9717a0c860812d2b06bc62e4fc6c4b85fa6c3a916eee2c78e85\] committed with status (VALID)
+$ peer lifecycle chaincode approveformyorg --channelID mychannel --name marbles --version 1.0 --init-required --package-id marbles:e001937433673b11673d660d142c722fc372905db87f88d2448eee42c9c63064 --sequence 1 -o orderer0:7050 --tls --cafile $ORDERER_CA
+### Should print a similar output
+2020-03-08 10:02:46.192 UTC [chaincodeCmd] ClientWait -> INFO 001 txid [4d81ea5fd494e9717a0c860812d2b06bc62e4fc6c4b85fa6c3a916eee2c78e85] committed with status (VALID)
 ```
 
 您可以通过执行以下命令来检查整个网络中的批准状态：
 
 ```
-$ peer lifecycle chaincode checkcommitreadiness --channelID mychannel --name marbles --version 1.0 --init-require  
-d --sequence 1 -o -orderer0:7050 --tls --cafile $ORDERER\_CA\### Should print a similar output  
-Chaincode definition for chaincode 'marbles', version '1.0', sequence '1' on channel 'mychannel' approval status by org:  
-org1MSP: true  
+$ peer lifecycle chaincode checkcommitreadiness --channelID mychannel --name marbles --version 1.0 --init-require
+d --sequence 1 -o -orderer0:7050 --tls --cafile $ORDERER_CA
+### Should print a similar output
+Chaincode definition for chaincode 'marbles', version '1.0', sequence '1' on channel 'mychannel' approval status by org:
+org1MSP: true
 org2MSP: false
 ```
 
 现在，我们批准** org2 **。 在** org2 ** cli pod中执行此命令，切记更改** CHAINCODE \ _CCID：**
 
 ```
-$ peer lifecycle chaincode approveformyorg --channelID mychannel --name marbles --version 1.0 --init-required --package-id marbles:25a9f6fe26161d29af928228ca1db0c41892e26e46335c84952336ee26d1fd93 --sequence 1 -o orderer0:7050 --tls --cafile $ORDERER\_CA\### Should print a similar output  
-2020-03-08 10:26:43.992 UTC \[chaincodeCmd\] ClientWait -> INFO 001 txid \[74a89f3c93c10f14c626bd4d6cb654b37889908c9e6f7b983d2cad79f1e82267\] committed with status (VALID)
+$ peer lifecycle chaincode approveformyorg --channelID mychannel --name marbles --version 1.0 --init-required --package-id marbles:25a9f6fe26161d29af928228ca1db0c41892e26e46335c84952336ee26d1fd93 --sequence 1 -o orderer0:7050 --tls --cafile $ORDERER_CA
+### Should print a similar output
+2020-03-08 10:26:43.992 UTC [chaincodeCmd] ClientWait -> INFO 001 txid [74a89f3c93c10f14c626bd4d6cb654b37889908c9e6f7b983d2cad79f1e82267] committed with status (VALID)
 ```
 
 再次检查链码的提交准备情况：
 
 ```
-$ peer lifecycle chaincode checkcommitreadiness --channelID mychannel --name marbles --version 1.0 --init-required --sequence 1 -o orderer0:7050 --tls --cafile $ORDERER\_CA\### Should print a similar output  
-Chaincode definition for chaincode 'marbles', version '1.0', sequence '1' on channel 'mychannel' approval status by org:  
-org1MSP: true  
+$ peer lifecycle chaincode checkcommitreadiness --channelID mychannel --name marbles --version 1.0 --init-required --sequence 1 -o orderer0:7050 --tls --cafile $ORDERER_CA
+### Should print a similar output
+Chaincode definition for chaincode 'marbles', version '1.0', sequence '1' on channel 'mychannel' approval status by org:
+org1MSP: true
 org2MSP: true
 ```
 
 现在，我们已经获得了所有组织的批准，让我们在渠道中提交此链码的定义。 您可以在任何对等节点上执行此操作：
 
 ```
-$ peer lifecycle chaincode commit -o orderer0:7050 --channelID mychannel --name marbles --version 1.0 --sequence 1 --init-required --tls true --cafile $ORDERER\_CA --peerAddresses peer0-org1:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1/peers/peer0-org1/tls/ca.crt --peerAddresses peer0-org2:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2/peers/peer0-org2/tls/ca.crt\### Should print a similar output  
-2020-03-08 14:13:49.516 UTC \[chaincodeCmd\] ClientWait -> INFO 001 txid \[568cb81f821698025bbc61f4c6cd3b4baf1aea632e1e1a8cfdf3ec3902d1c6bd\] committed with status (VALID) at peer0-org1:7051  
-2020-03-08 14:13:49.533 UTC \[chaincodeCmd\] ClientWait -> INFO 002 txid \[568cb81f821698025bbc61f4c6cd3b4baf1aea632e1e1a8cfdf3ec3902d1c6bd\] committed with status (VALID) at peer0-org2:7051
+$ peer lifecycle chaincode commit -o orderer0:7050 --channelID mychannel --name marbles --version 1.0 --sequence 1 --init-required --tls true --cafile $ORDERER_CA --peerAddresses peer0-org1:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1/peers/peer0-org1/tls/ca.crt --peerAddresses peer0-org2:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2/peers/peer0-org2/tls/ca.crt
+### Should print a similar output
+2020-03-08 14:13:49.516 UTC [chaincodeCmd] ClientWait -> INFO 001 txid [568cb81f821698025bbc61f4c6cd3b4baf1aea632e1e1a8cfdf3ec3902d1c6bd] committed with status (VALID) at peer0-org1:7051
+2020-03-08 14:13:49.533 UTC [chaincodeCmd] ClientWait -> INFO 002 txid [568cb81f821698025bbc61f4c6cd3b4baf1aea632e1e1a8cfdf3ec3902d1c6bd] committed with status (VALID) at peer0-org2:7051
 ```
 
 现在，我们已将链码定义添加到通道，并准备被调用并对其进行查询！ 😄
@@ -403,28 +424,31 @@ $ peer lifecycle chaincode commit -o orderer0:7050 --channelID mychannel --name 
 我们可以测试来自cli pod的调用和查询命令的链码。 这些命令不会被生命周期链代码过程修改，可以在Hyperledger Fabric版本1.x中称为链代码。 首先，让我们在分类帐中创建一些大理石。 在一个cliorg ** org1 **或** org2 **上执行以下命令。
 
 ```
-$ peer chaincode invoke -o orderer0:7050 --isInit --tls true --cafile $ORDERER\_CA -C mychannel -n marbles --peerAddresses   
-peer0-org1:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1/peers/peer0-org1/tls/ca.crt --peerAddresses peer  
-0-org2:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2/peers/peer0-org2/tls/ca.crt -c '{"Args":\["initMarble  
-","marble1","blue","35","tom"\]}' --waitForEvent\### Should print a similar output  
-2020-03-08 14:23:03.569 UTC \[chaincodeCmd\] ClientWait -> INFO 001 txid \[83aeeaac47cf6302bc139addc4aa38116a40eaff788846d87cc815d2e1318f44\] committed with status (VALID) at peer0-org2:7051  
-2020-03-08 14:23:03.575 UTC \[chaincodeCmd\] ClientWait -> INFO 002 txid \[83aeeaac47cf6302bc139addc4aa38116a40eaff788846d87cc815d2e1318f44\] committed with status (VALID) at peer0-org1:7051  
-2020-03-08 14:23:03.576 UTC \[chaincodeCmd\] chaincodeInvokeOrQuery -> INFO 003 Chaincode invoke successful. result: status:200
+$ peer chaincode invoke -o orderer0:7050 --isInit --tls true --cafile $ORDERER_CA -C mychannel -n marbles --peerAddresses 
+peer0-org1:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1/peers/peer0-org1/tls/ca.crt --peerAddresses peer
+0-org2:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2/peers/peer0-org2/tls/ca.crt -c '{"Args":["initMarble
+","marble1","blue","35","tom"]}' --waitForEvent
+### Should print a similar output
+2020-03-08 14:23:03.569 UTC [chaincodeCmd] ClientWait -> INFO 001 txid [83aeeaac47cf6302bc139addc4aa38116a40eaff788846d87cc815d2e1318f44] committed with status (VALID) at peer0-org2:7051
+2020-03-08 14:23:03.575 UTC [chaincodeCmd] ClientWait -> INFO 002 txid [83aeeaac47cf6302bc139addc4aa38116a40eaff788846d87cc815d2e1318f44] committed with status (VALID) at peer0-org1:7051
+2020-03-08 14:23:03.576 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 003 Chaincode invoke successful. result: status:200
 ```
 
 这将在分类帐上创建一个_marble1_。 现在创建另一个大理石：
 
 ```
-$ peer chaincode invoke -o orderer0:7050 --isInit --tls true --cafile $ORDERER\_CA -C mychannel -n marbles --peerAddresses peer0-org1:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1/peers/peer0-org1/tls/ca.crt --peerAddresses peer0-org2:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2/peers/peer0-org2/tls/ca.crt -c '{"Args":\["initMarble","marble2","red","50","tom"\]}' --waitForEvent\### Should print a similar output  
-2020-03-08 14:23:40.404 UTC \[chaincodeCmd\] ClientWait -> INFO 001 txid \[8391f9f8ea84887a56f99e4dc4501eaa6696cd7bd6c524e4868bd6cfd5b85e78\] committed with status (VALID) at peer0-org2:7051  
-2020-03-08 14:23:40.434 UTC \[chaincodeCmd\] ClientWait -> INFO 002 txid \[8391f9f8ea84887a56f99e4dc4501eaa6696cd7bd6c524e4868bd6cfd5b85e78\] committed with status (VALID) at peer0-org1:7051  
-2020-03-08 14:23:40.434 UTC \[chaincodeCmd\] chaincodeInvokeOrQuery -> INFO 003 Chaincode invoke successful. result: status:200
+$ peer chaincode invoke -o orderer0:7050 --isInit --tls true --cafile $ORDERER_CA -C mychannel -n marbles --peerAddresses peer0-org1:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1/peers/peer0-org1/tls/ca.crt --peerAddresses peer0-org2:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2/peers/peer0-org2/tls/ca.crt -c '{"Args":["initMarble","marble2","red","50","tom"]}' --waitForEvent
+### Should print a similar output
+2020-03-08 14:23:40.404 UTC [chaincodeCmd] ClientWait -> INFO 001 txid [8391f9f8ea84887a56f99e4dc4501eaa6696cd7bd6c524e4868bd6cfd5b85e78] committed with status (VALID) at peer0-org2:7051
+2020-03-08 14:23:40.434 UTC [chaincodeCmd] ClientWait -> INFO 002 txid [8391f9f8ea84887a56f99e4dc4501eaa6696cd7bd6c524e4868bd6cfd5b85e78] committed with status (VALID) at peer0-org1:7051
+2020-03-08 14:23:40.434 UTC [chaincodeCmd] chaincodeInvokeOrQuery -> INFO 003 Chaincode invoke successful. result: status:200
 ```
 
 从_marble1：_检索信息
 
 ```
-$ peer chaincode query -C mychannel -n marbles -c '{"Args":\["readMarble","marble1"\]}'{"docType":"marble","name":"marble1","color":"blue","size":35,"owner":"tom"}
+$ peer chaincode query -C mychannel -n marbles -c '{"Args":["readMarble","marble1"]}'
+{"docType":"marble","name":"marble1","color":"blue","size":35,"owner":"tom"}
 ```
 
 There are many example commands you can execute with this chaincode, just check the source code of the chaincode for more examples.
@@ -432,13 +456,14 @@ There are many example commands you can execute with this chaincode, just check 
 You can also check the logs of the chaincode containers by executing the following command:
 
 ```
-$ kubectl logs chaincode\_pod\_name -n hyperledger\### Should print a similar output  
-invoke is running initMarble  
-\- start init marble  
-\- end init marble  
-invoke is running initMarble  
-\- start init marble  
-\- end init marble  
+$ kubectl logs chaincode_pod_name -n hyperledger
+### Should print a similar output
+invoke is running initMarble
+- start init marble
+- end init marble
+invoke is running initMarble
+- start init marble
+- end init marble
 invoke is running readMarble
 ```
 
@@ -456,7 +481,12 @@ go.mod文件也需要导入这两个模块。
 这就是使它工作所需的所有修改！安装说明与之相同，只是使用fabcar（而不是大理石）一词。唯一的区别是在approveformyorg，commit和invoke中不需要使用--init-required或--isInit标志。
 
 ```
-peer lifecycle chaincode approveformyorg --channelID mychannel --name fabcar --version 1.0 --package-id fabcar:005c35f4f172c056723eca09d41e8048e0beaa2712d920c19af837640df7e2aa --sequence 1 -o orderer0:7050 --tls --cafile $ORDERER\_CApeer lifecycle chaincode approveformyorg --channelID mychannel --name fabcar --version 1.0 --package-id fabcar:61ab817a6ad76098d340952e5d8e928d9c5ddff1a53341dc8d0c64b4345564b0 --sequence 1 -o orderer0:7050 --tls --cafile $ORDERER\_CApeer lifecycle chaincode checkcommitreadiness --channelID mychannel --name fabcar --version 1.0 --sequence 1 -o -orderer0:7050 --tls --cafile $ORDERER\_CApeer lifecycle chaincode commit -o orderer0:7050 --channelID mychannel --name fabcar --version 1.0 --sequence 1 --tls true --cafile $ORDERER\_CA --peerAddresses peer0-org1:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1/peers/peer0-org1/tls/ca.crt --peerAddresses peer0-org2:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2/peers/peer0-org2/tls/ca.crtpeer chaincode invoke -o orderer0:7050 --tls true --cafile $ORDERER\_CA -C mychannel -n fabcar --peerAddresses peer0-org1:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1/peers/peer0-org1/tls/ca.crt --peerAddresses peer0-org2:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2/peers/peer0-org2/tls/ca.crt -c '{"Args":\["InitLedger"\]}' --waitForEventpeer chaincode query -C mychannel -n fabcar -c '{"Args":\["QueryAllCars"\]}'
+peer lifecycle chaincode approveformyorg --channelID mychannel --name fabcar --version 1.0 --package-id fabcar:005c35f4f172c056723eca09d41e8048e0beaa2712d920c19af837640df7e2aa --sequence 1 -o orderer0:7050 --tls --cafile $ORDERER_CA
+peer lifecycle chaincode approveformyorg --channelID mychannel --name fabcar --version 1.0 --package-id fabcar:61ab817a6ad76098d340952e5d8e928d9c5ddff1a53341dc8d0c64b4345564b0 --sequence 1 -o orderer0:7050 --tls --cafile $ORDERER_CA
+peer lifecycle chaincode checkcommitreadiness --channelID mychannel --name fabcar --version 1.0 --sequence 1 -o -orderer0:7050 --tls --cafile $ORDERER_CA
+peer lifecycle chaincode commit -o orderer0:7050 --channelID mychannel --name fabcar --version 1.0 --sequence 1 --tls true --cafile $ORDERER_CA --peerAddresses peer0-org1:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1/peers/peer0-org1/tls/ca.crt --peerAddresses peer0-org2:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2/peers/peer0-org2/tls/ca.crt
+peer chaincode invoke -o orderer0:7050 --tls true --cafile $ORDERER_CA -C mychannel -n fabcar --peerAddresses peer0-org1:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1/peers/peer0-org1/tls/ca.crt --peerAddresses peer0-org2:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2/peers/peer0-org2/tls/ca.crt -c '{"Args":["InitLedger"]}' --waitForEvent
+peer chaincode query -C mychannel -n fabcar -c '{"Args":["QueryAllCars"]}'
 ```
 您还将在[他们的github存储库]（https://github.com/hyperledger/fabric-samples/tree/master/chaincode/fabcar/external）中找到Hyperledger团队使用外部链码功能的相同链码的原始实现。 ）。它们的实现与我们的实现之间没有多少区别，因此我们假定这是使用外部功能实现此基于契约的链码的正确方法。
 
